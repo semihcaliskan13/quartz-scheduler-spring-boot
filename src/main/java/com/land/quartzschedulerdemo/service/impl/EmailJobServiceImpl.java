@@ -2,6 +2,7 @@ package com.land.quartzschedulerdemo.service.impl;
 
 
 import com.land.quartzschedulerdemo.dto.request.CreateEmailJobRequest;
+import com.land.quartzschedulerdemo.dto.request.CreateEmailJobTriggerRequest;
 import com.land.quartzschedulerdemo.dto.response.CreateEmailJobResponse;
 import com.land.quartzschedulerdemo.dto.response.GetEmailJob;
 import com.land.quartzschedulerdemo.dto.response.TriggerResponse;
@@ -15,6 +16,7 @@ import org.quartz.Trigger;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,15 +40,7 @@ public class EmailJobServiceImpl implements ScheduleEmailJobService {
         }
         JobDetail jobDetail = EmailJobUtil.buildJobDetail(request);
         Trigger trigger = EmailJobUtil.buildTrigger(jobDetail, dateTime);
-        scheduler.scheduleJob(jobDetail,trigger);
-
-        /*
-         * to add existing job a trigger we can use this code line
-         *  get the existing job
-         *  JobDetail jobDetail = scheduler.getJobDetail(JobKey.jobKey("job-id","group-name"));
-         *  Trigger trigger = EmailJobUtil.buildTrigger(jobDetail, dateTime);
-         *  scheduler.scheduleJob(trigger);
-         */
+        scheduler.scheduleJob(jobDetail, trigger);
         return new CreateEmailJobResponse(true, jobDetail.getKey().getName(), jobDetail.getKey().getGroup(), "E-mail job successfully scheduled.");
     }
 
@@ -64,8 +58,6 @@ public class EmailJobServiceImpl implements ScheduleEmailJobService {
 
                 //get job's triggers
                 var triggers = (List<? extends Trigger>) scheduler.getTriggersOfJob(jobKey);
-                Date nextFireTime = triggers.get(0).getNextFireTime();
-
                 emailJobs.add(new GetEmailJob(jobName, jobGroup, jobDataMap, GetEmailJob.buildDescriptor(triggers)));
             }
 
@@ -75,6 +67,32 @@ public class EmailJobServiceImpl implements ScheduleEmailJobService {
 
     @Override
     public GetEmailJob getEmailJobById(String jobName, String groupName) throws SchedulerException {
-        return null;
+        var jobDetail = scheduler.getJobDetail(JobKey.jobKey(jobName, groupName));
+        return new GetEmailJob(jobDetail.getKey().getName(), jobDetail.getKey().getGroup(), jobDetail.getJobDataMap(), GetEmailJob.buildDescriptor(scheduler.getTriggersOfJob(JobKey.jobKey(jobName, groupName))));
+    }
+
+    @Override
+    public void pauseEmailJob(String jobName, String groupName) throws SchedulerException {
+        scheduler.pauseJob(JobKey.jobKey(jobName, groupName));
+    }
+
+    @Override
+    public void resumeEmailJob(String jobName, String groupName) throws SchedulerException {
+        scheduler.resumeJob(JobKey.jobKey(jobName, groupName));
+    }
+
+    @Override
+    public void addTriggersToExistingJob(CreateEmailJobTriggerRequest request) throws SchedulerException {
+
+        ZonedDateTime dateTime = ZonedDateTime.of(request.getDateTime(), request.getTimeZone());
+        JobDetail jobDetail = scheduler.getJobDetail(JobKey.jobKey(request.getJobId(), request.getGroupName()));
+        Trigger trigger = EmailJobUtil.buildTrigger(jobDetail, dateTime);
+        scheduler.scheduleJob(trigger);
+
+    }
+
+    @Override
+    public void deleteJob(String jobName, String groupName) throws SchedulerException {
+        scheduler.deleteJob(JobKey.jobKey(jobName,groupName));
     }
 }
