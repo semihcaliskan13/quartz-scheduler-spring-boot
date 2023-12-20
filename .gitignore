@@ -16,6 +16,9 @@ target/
 mvnw
 mvnw.cmd
 
+#Spring Boot
+*/src/main/resources/application.yml
+
 
 ### IntelliJ IDEA ###
 .idea

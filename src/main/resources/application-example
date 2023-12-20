@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    username: <<your_mysql_username>>
+    password: <your_mysql_password>
+    url: jdbc:mysql://localhost:3306/quartz-scheduler
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MYSQL8Dialect
+        physical_naming_strategy: 'org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl'
+
+  quartz:
+    jdbc:
+      initialize-schema: always
+    job-store-type: jdbc
+
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: <<your_mail>>
+    password: <<your_2fa_code>>
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+org:
+  quartz:
+    jobStore:
+      driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
