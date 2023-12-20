@@ -33,7 +33,7 @@ public class EmailJobUtil {
     public static Trigger buildTrigger(JobDetail jobDetail, ZonedDateTime startAt) {
         return TriggerBuilder.newTrigger().
                 forJob(jobDetail)
-                .withIdentity(jobDetail.getKey().getName(), "email-triggers")
+                .withIdentity(UUID.randomUUID().toString(), "email-triggers")
                 .withDescription("send-email-trigger")
                 .startAt(Date.from(startAt.toInstant()))
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule().withMisfireHandlingInstructionFireNow())
