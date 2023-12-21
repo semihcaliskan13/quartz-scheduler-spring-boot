@@ -8,7 +8,7 @@ import org.quartz.SchedulerException;
 
 import java.util.List;
 
-public interface ScheduleEmailJobService {
+public interface EmailJobService {
 
     CreateEmailJobResponse scheduleEmailJob(CreateEmailJobRequest request) throws SchedulerException;
     List<GetEmailJob> getAllEmailJobs() throws SchedulerException;

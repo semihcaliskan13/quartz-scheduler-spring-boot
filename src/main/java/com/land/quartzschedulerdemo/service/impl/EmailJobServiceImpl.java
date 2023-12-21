@@ -5,8 +5,7 @@ import com.land.quartzschedulerdemo.dto.request.CreateEmailJobRequest;
 import com.land.quartzschedulerdemo.dto.request.CreateEmailJobTriggerRequest;
 import com.land.quartzschedulerdemo.dto.response.CreateEmailJobResponse;
 import com.land.quartzschedulerdemo.dto.response.GetEmailJob;
-import com.land.quartzschedulerdemo.dto.response.TriggerResponse;
-import com.land.quartzschedulerdemo.service.ScheduleEmailJobService;
+import com.land.quartzschedulerdemo.service.EmailJobService;
 import com.land.quartzschedulerdemo.util.EmailJobUtil;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
@@ -16,14 +15,12 @@ import org.quartz.Trigger;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
-public class EmailJobServiceImpl implements ScheduleEmailJobService {
+public class EmailJobServiceImpl implements EmailJobService {
 
     private final Scheduler scheduler;
 

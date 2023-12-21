@@ -4,7 +4,7 @@ import com.land.quartzschedulerdemo.dto.request.CreateEmailJobRequest;
 import com.land.quartzschedulerdemo.dto.request.CreateEmailJobTriggerRequest;
 import com.land.quartzschedulerdemo.dto.response.CreateEmailJobResponse;
 import com.land.quartzschedulerdemo.dto.response.GetEmailJob;
-import com.land.quartzschedulerdemo.service.ScheduleEmailJobService;
+import com.land.quartzschedulerdemo.service.EmailJobService;
 import org.quartz.SchedulerException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +20,9 @@ import java.util.List;
 @RequestMapping("/schedule-jobs")
 public class EmailSchedulerController {
 
-    private final ScheduleEmailJobService emailJobService;
+    private final EmailJobService emailJobService;
 
-    public EmailSchedulerController(ScheduleEmailJobService emailJobService) {
+    public EmailSchedulerController(EmailJobService emailJobService) {
         this.emailJobService = emailJobService;
     }
 
