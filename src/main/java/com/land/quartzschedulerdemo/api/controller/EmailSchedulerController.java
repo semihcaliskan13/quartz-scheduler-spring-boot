@@ -31,7 +31,7 @@ public class EmailSchedulerController {
         return emailJobService.scheduleEmailJob(request);
     }
 
-    @GetMapping(path = "/")
+    @GetMapping
     public List<GetEmailJob> getAllEmailJobs() throws SchedulerException {
         return emailJobService.getAllEmailJobs();
     }
