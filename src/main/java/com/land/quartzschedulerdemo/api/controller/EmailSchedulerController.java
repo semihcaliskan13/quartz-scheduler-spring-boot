@@ -6,6 +6,7 @@ import com.land.quartzschedulerdemo.dto.response.CreateEmailJobResponse;
 import com.land.quartzschedulerdemo.dto.response.GetEmailJob;
 import com.land.quartzschedulerdemo.service.EmailJobService;
 import org.quartz.SchedulerException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/schedule-jobs")
 public class EmailSchedulerController {
